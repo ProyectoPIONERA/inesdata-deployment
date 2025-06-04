@@ -5,14 +5,12 @@ connector:
   dataspace: {{ keys.dataspace_name }}
   environment: {{ 'pro' if keys.environment == 'PRO' else 'dev' }}
   image:
-    name: ghcr.io/oeg-upm/inesdata-connector
-    tag: 0.8.1
+    name: ghcr.io/inesdata/inesdata-connector
+    tag: 0.9.1
   replicas: 1
   jvmArgs: "{% if keys.environment == 'PRO'%}-Djavax.net.ssl.trustStore=/opt/connector/tls-cacerts/cacerts.jks -Djavax.net.ssl.trustStorePassword=inesdata{% endif %}"
   configuration:
     configFilePath: /opt/connector/config/connector-configuration.properties
-    keystorePath: /opt/connector/certs/{{ keys.connector_name }}-store.p12
-    keystorePassword: {{ keys.certificates.passwd }}
   ingress:
     hostname: {{ keys.connector_name }}-{{ keys.dataspace_name }}.{% if keys.environment == 'PRO'%}ds.inesdata-project.eu{% else %}dev.ds.inesdata.upm{% endif %}
     protocol: {{ 'https' if keys.environment == 'PRO' else 'http' }}
@@ -33,8 +31,8 @@ connector:
 
 connectorInterface:
   image:
-    name: ghcr.io/oeg-upm/inesdata-connector-interface
-    tag: 0.9.1
+    name: ghcr.io/inesdata/inesdata-connector-interface
+    tag: 0.10.0
   oauth2:
     client:
       dataspace-users

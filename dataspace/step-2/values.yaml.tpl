@@ -4,9 +4,9 @@ dataspace:
 backend:
   image: 
     name:
-      ghcr.io/oeg-upm/inesdata-public-portal-backend
+      ghcr.io/inesdata/inesdata-public-portal-backend
     tag:
-      0.8.0
+      0.9.0
   api:
     token:
       salt:
@@ -40,9 +40,9 @@ backend:
 frontend:
   image: 
     name:
-      ghcr.io/oeg-upm/inesdata-public-portal-frontend
+      ghcr.io/inesdata/inesdata-public-portal-frontend
     tag:
-      0.8.3
+      0.9.0
 services:
   db:
     hostname: 
