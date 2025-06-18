@@ -4,9 +4,9 @@ dataspace:
 registration:
   image: 
     name:
-      ghcr.io/oeg-upm/inesdata-registration-service
+      ghcr.io/inesdata/inesdata-registration-service
     tag:
-      0.6.0
+      0.7.0
 services:
   db:
     hostname: 

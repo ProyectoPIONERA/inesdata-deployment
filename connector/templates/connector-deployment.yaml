@@ -22,10 +22,6 @@ spec:
           env:
             - name: EDC_FS_CONFIG
               value: {{ .Values.connector.configuration.configFilePath }}
-            - name: EDC_KEYSTORE
-              value: {{ .Values.connector.configuration.keystorePath }}
-            - name: EDC_KEYSTORE_PASSWORD
-              value: {{ .Values.connector.configuration.keystorePassword }}
             - name: EDC_VAULT
               value: {{ .Values.connector.configuration.vaultPath }}
             - name: JVM_ARGS
@@ -48,9 +44,6 @@ spec:
           volumeMounts:
             - name: config
               mountPath: "/opt/connector/config"
-              readOnly: true
-            - name: keys
-              mountPath: "/opt/connector/certs"
               readOnly: true
 {{- if eq .Values.connector.environment "pro" }}
             - name: tls-cacerts
@@ -75,9 +68,6 @@ spec:
         - name: config
           configMap:
             name: {{ .Values.connector.name }}-config
-        - name: keys
-          secret:
-            secretName: {{ .Values.connector.name }}-keys
         - name: init-db
           configMap:
             name: {{ .Values.connector.name }}-initdb
