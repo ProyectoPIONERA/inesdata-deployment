@@ -11,9 +11,16 @@ spec:
       service: {{ .Values.dataspace.name }}-registration-service
   template:
     metadata:
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/registration-service-configmap.yaml") . | sha256sum }}
+        checksum/secret: {{ include (print $.Template.BasePath "/registration-service-secret.yaml") . | sha256sum }}
       labels:
         service: {{ .Values.dataspace.name }}-registration-service
     spec:
+      {{- with .Values.hostAliases }}
+      hostAliases:
+      {{- toYaml . | nindent 8 }}
+      {{- end }}
       containers:
         - image: {{ .Values.registration.image.name }}:{{ .Values.registration.image.tag }}
           name: registration-service

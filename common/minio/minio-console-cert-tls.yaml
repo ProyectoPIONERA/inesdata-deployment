@@ -11,9 +11,9 @@ spec:
   dnsNames:
     - "*.comsrvs-tls-minio"
     - "*.common-srvs.svc"
-    - "*.ds.inesdata.upm"
-    - console-storage.ds.inesdata.upm
-    - console-storage.ds.inesdata-project.eu
+    - "*.ds.dataspaceunit.upm"
+    - console-storage.ds.dataspaceunit.upm
+    - console-storage.ds.dataspaceunit-project.eu
     - comsrvs-minio
     - minio
   issuerRef:

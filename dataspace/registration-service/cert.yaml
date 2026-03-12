@@ -11,8 +11,8 @@ spec:
   dnsNames:
     - "*.mobility-registration-service"
     - "*.mobility.svc"
-    - "*.ds.inesdata-project.eu"
-    - registration-service-mobility.ds.inesdata-project.eu
+    - "*.ds.dataspaceunit-project.eu"
+    - registration-service-mobility.ds.dataspaceunit-project.eu
     - mobility-registration-service
     - registration-service
   ipAddresses:

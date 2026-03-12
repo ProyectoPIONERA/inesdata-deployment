@@ -11,10 +11,10 @@ spec:
   dnsNames:
     - "*.{{ .Values.connector.dataspace }}-{{ .Values.connector.name }}"
     - "*.{{ .Values.connector.name }}.svc"
-    - "*.ds.inesdata-project.eu"
+    - "*.ds.dataspaceunit-project.eu"
     - {{ .Values.connector.ingress.hostname }}
     - {{ .Values.connector.dataspace }}-{{ .Values.connector.name }}
-    - {{ .Values.connector.name }}-{{ .Values.connector.dataspace }}.ds.inesdata-project.eu
+    - {{ .Values.connector.name }}-{{ .Values.connector.dataspace }}.ds.dataspaceunit-project.eu
     - {{ .Values.connector.name }}
   ipAddresses:
     - 127.0.0.1

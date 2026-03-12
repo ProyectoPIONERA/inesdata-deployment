@@ -4,9 +4,9 @@ dataspace:
 backend:
   image: 
     name:
-      ghcr.io/inesdata/inesdata-public-portal-backend
+      ghcr.io/proyectopionera/inesdata-public-portal-backend
     tag:
-      0.9.0
+      20260309-dbfde06
   api:
     token:
       salt:
@@ -16,10 +16,10 @@ backend:
       {{ keys.web_portal_secrets.STRAPI_APP_KEYS }}
   catalog:
     connector:
-      {{ 'https' if keys.environment == 'PRO' else 'http' }}://CHANGEME-conn-NAME-{{ keys.dataspace_name }}{{ '.ds.inesdata-project.eu' if keys.environment == 'PRO' else ':19193' }}
+      {{ 'https' if keys.environment == 'PRO' else 'http' }}://CHANGEME-conn-NAME-{{ keys.dataspace_name }}{{ '.ds.dataspaceunit-project.eu' if keys.environment == 'PRO' else ':19193' }}
   vocabularies:
     connector:
-      {{ 'https' if keys.environment == 'PRO' else 'http' }}://CHANGEME-conn-NAME-{{ keys.dataspace_name }}{{ '.ds.inesdata-project.eu' if keys.environment == 'PRO' else ':19196' }}
+      {{ 'https' if keys.environment == 'PRO' else 'http' }}://CHANGEME-conn-NAME-{{ keys.dataspace_name }}{{ '.ds.dataspaceunit-project.eu' if keys.environment == 'PRO' else ':19196' }}
   jwt:
     secret:
       core:
@@ -40,9 +40,9 @@ backend:
 frontend:
   image: 
     name:
-      ghcr.io/inesdata/inesdata-public-portal-frontend
+      ghcr.io/proyectopionera/inesdata-public-portal-frontend
     tag:
-      0.9.0
+      20260309-c5e8553
 services:
   db:
     hostname: 
@@ -67,9 +67,9 @@ services:
 ingress:
   frontend:
     hostname:
-      {{ keys.dataspace_name }}{{ '.ds.inesdata-project.eu' if keys.environment == 'PRO' else '.dev.ds.inesdata.upm' }}
+      {{ keys.dataspace_name }}{{ '.ds.dataspaceunit-project.eu' if keys.environment == 'PRO' else '.dev.ds.dataspaceunit.upm' }}
   backend:
     hostname:
-      backend-{{ keys.dataspace_name }}{{ '.ds.inesdata-project.eu' if keys.environment == 'PRO' else '.dev.ds.inesdata.upm' }}
+      backend-{{ keys.dataspace_name }}{{ '.ds.dataspaceunit-project.eu' if keys.environment == 'PRO' else '.dev.ds.dataspaceunit.upm' }}
   protocol:
     {{ 'https' if keys.environment == 'PRO' else 'http' }}

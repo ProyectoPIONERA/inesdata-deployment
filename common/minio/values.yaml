@@ -18,18 +18,18 @@ minio:
   ingress:
     enabled: true
     hosts:
-      - storage.ds.inesdata-project.eu
+      - storage.ds.dataspaceunit-project.eu
     annotations:
       nginx.ingress.kubernetes.io/secure-backends: "true"
       nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
     tls:
       - secretName: minio-api-tls-cert
         hosts:
-        - storage.ds.inesdata-project.eu
+        - storage.ds.dataspaceunit-project.eu
   consoleIngress:
     enabled: true
     hosts:
-      - console-storage.ds.inesdata-project.eu
+      - console-storage.ds.dataspaceunit-project.eu
     annotations:
       nginx.ingress.kubernetes.io/secure-backends: "true"
       nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
@@ -37,7 +37,7 @@ minio:
     tls:
       - secretName: minio-console-tls-cert
         hosts:
-        - console-storage.ds.inesdata-project.eu
+        - console-storage.ds.dataspaceunit-project.eu
   resources:
     requests:
       memory: 2Gi

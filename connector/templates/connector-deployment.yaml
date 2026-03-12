@@ -16,6 +16,10 @@ spec:
       labels:
         service: {{ .Values.connector.name }}
     spec:
+      {{- with .Values.hostAliases }}
+      hostAliases:
+      {{- toYaml . | nindent 8 }}
+      {{- end }}
       containers:
         - name: {{ .Values.connector.name }}
           image: {{ .Values.connector.image.name }}:{{ .Values.connector.image.tag }}

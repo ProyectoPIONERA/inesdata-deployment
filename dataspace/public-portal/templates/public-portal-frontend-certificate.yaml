@@ -11,7 +11,7 @@ spec:
   dnsNames:
     - "*.{{ .Values.dataspace.name }}-portal-frontend"
     - "*.{{ .Values.dataspace.name }}.svc"
-    - "*.ds.inesdata-project.eu"
+    - "*.ds.dataspaceunit-project.eu"
     - {{ .Values.ingress.frontend.hostname }}
     - {{ .Values.dataspace.name }}-portal-frontend
     - portal-frontend

@@ -1,5 +1,5 @@
-name: inesdata-ds-common
-description: Helm chart to deploy the base services for an inesdata dataspaces-deployment DEV environment
+name: dataspaceunit-ds-common
+description: Helm chart to deploy the base services for an dataspaceunit dataspaces-deployment DEV environment
 version: 0.0.1
 apiVersion: v2
 dependencies:

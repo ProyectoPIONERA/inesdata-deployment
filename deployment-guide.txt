@@ -11,19 +11,19 @@
  > source .venv/bin/activate
  > python3 deployer.py dataspace create <dataspace-name>
 
-* Actualizar valores de dataspace/step-1 usando los valores del fichero credentials-dataspace-devtech.json generado en el paso anterior
+* Actualizar valores de dataspace/registration-service usando los valores del fichero credentials-dataspace-devtech.json generado en el paso anterior
 * Ejecutar el paso 1 de HELM (crear registration service)
- > cd dataspace/step-1
- > helm install -f values.yaml -n <dataspace-name>-ds --create-namespace <dataspace-name>-dataspace-s1 .
+ > cd dataspace/registration-service
+ > helm install -f values.yaml -n <dataspace-name>-ds --create-namespace <dataspace-name>-dataspace-rs .
  > kubectl get pods -n <dataspace-name>-ds
  
 * CREAR CONECTOR PROMOTOR: Ejecutar los pasos indicados en la sección "AÑADIR NUEVO CONECTOR" para crear el conector promotor
 
 * Acceder a la administración de KEYCLOAK y actualizar el usuario de strapi para asignarle el grupo del conector promotor
 
-* Actualizar valores de dataspace/step-2 usando los valores del fichero credentials-dataspace-devmobility.json y del conector promotor credentials-connector-conn-promotor-devmobility.json
+* Actualizar valores de dataspace/public-portal usando los valores del fichero credentials-dataspace-devmobility.json y del conector promotor credentials-connector-conn-promotor-devmobility.json
 * Ejecutar el paso 2 de HELM de dataspaces(crear public portal)
- > cd dataspace/step-2
+ > cd dataspace/public-portal
  > helm install -f values.yaml -n <dataspace-name>-ds <dataspace-name>-dataspace-s2 .
  > kubectl get pods -n <dataspace-name>-ds
 

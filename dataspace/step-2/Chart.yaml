@@ -1,4 +1,0 @@
-apiVersion: v2
-name: dataspace-step-2
-description: Deploy INESData Public Portal
-version: 0.1.0

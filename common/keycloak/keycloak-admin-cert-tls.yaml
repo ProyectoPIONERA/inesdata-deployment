@@ -11,8 +11,8 @@ spec:
   dnsNames:
     - "*.comsrvs-keycloak"
     - "*.common-srvs.svc"
-    - "*.ds.inesdata.upm"
-    - admin.auth.ds.inesdata.upm
+    - "*.ds.dataspaceunit.upm"
+    - admin.auth.ds.dataspaceunit.upm
     - comsrvs-keycloak
     - keycloak
   issuerRef:

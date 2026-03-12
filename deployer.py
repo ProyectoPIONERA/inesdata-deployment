@@ -1,5 +1,5 @@
 
-# Deploy an INesData Platform
+# Deploy an Dataspaceunit Platform
 # - Deploy common services
 #   - Deploy common Helm chart, gerating and/or retrieving secrets
 
@@ -27,15 +27,15 @@ import os
 import urllib3
 import warnings
 
-URL_PRO = '.inesdata-project.eu'
-URL_DEV = '.dev.ds.inesdata.upm'
+URL_PRO = '.dataspaceunit-project.eu'
+URL_DEV = '.dev.ds.dataspaceunit.upm'
 
 @click.group()
 @click.option('--pg-user', help='Postgres admin user', default='postgres')
-@click.option('--pg-password', help='Postgres admin password', default='inesdata')
+@click.option('--pg-password', help='Postgres admin password', default='aPassword1234')
 @click.option('--pg-host', help='Postgres host address', default='localhost')
 @click.option('--kc-user', help='Keycloak admin user', default='admin')
-@click.option('--kc-password', help='Keycloak admin password', default='inesdata')
+@click.option('--kc-password', help='Keycloak admin password', default='aPassword1234')
 @click.option('--kc-url', help='Keycloak server admin API address', default='http://localhost:8080')
 @click.option('--kc-internal-url', help='Keycloak internal URL', default='http://comsrv-keycloak.common-services.svc')
 @click.option('--vt-token', help='Vault root token', default='rt.0000000000000')
@@ -357,8 +357,8 @@ def register_connector_database(pg_user, pg_password, pg_host, database, connect
             database=database)
     conn.set_isolation_level(psycopg2.extensions.ISOLATION_LEVEL_AUTOCOMMIT)
     cur = conn.cursor()
-    conn_protocol = f"http://{connector}:19194/protocol" if environment == "DEV" else f"https://{connector}-{dataspace}.ds.inesdata-project.eu/protocol"
-    conn_shared = f"http://{connector}:19196/shared" if environment == "DEV" else f"https://{connector}-{dataspace}.ds.inesdata-project.eu/shared"
+    conn_protocol = f"http://{connector}:19194/protocol" if environment == "DEV" else f"https://{connector}-{dataspace}.ds.dataspaceunit-project.eu/protocol"
+    conn_shared = f"http://{connector}:19196/shared" if environment == "DEV" else f"https://{connector}-{dataspace}.ds.dataspaceunit-project.eu/shared"
     cur.execute(f"INSERT INTO public.edc_participant (participant_id,url,created_at,shared_url) VALUES ('{connector}','{conn_protocol}',EXTRACT(EPOCH FROM NOW())::BIGINT,'{conn_shared}');")
     cur.close()
     conn.close()
@@ -510,12 +510,12 @@ def create_realm(username, password, server_url, realm_name, dataspace_name, key
     keycloak_admin.change_current_realm(realm_name)
 
     # Check if the client scope exists and create it if it doesn't
-    click.echo(f'  + Creating scope "inesdata-dataspace-audience"' )
+    click.echo(f'  + Creating scope "dataspaceunit-dataspace-audience"' )
     client_scopes = keycloak_admin.get_client_scopes()
-    if not any(scope['name'] == 'inesdata-dataspace-audience' for scope in client_scopes):
+    if not any(scope['name'] == 'dataspaceunit-dataspace-audience' for scope in client_scopes):
         dataspace_audience_payload = {
-            "name": "inesdata-dataspace-audience",
-            "description": f"INESDATA: Add audience for {dataspace_name} dataspace",
+            "name": "dataspaceunit-dataspace-audience",
+            "description": f"Dataspaceunit: Add audience for {dataspace_name} dataspace",
             "protocol": "openid-connect",
             "attributes": {
                 "display.on.consent.screen": "false",
@@ -538,11 +538,11 @@ def create_realm(username, password, server_url, realm_name, dataspace_name, key
         }
         keycloak_admin.create_client_scope(payload=dataspace_audience_payload)
 
-    click.echo(f'  + Creating scope "inesdata-nbf-claim"' )
-    if not any(scope['name'] == 'inesdata-nbf-claim' for scope in client_scopes):
+    click.echo(f'  + Creating scope "dataspaceunit-nbf-claim"' )
+    if not any(scope['name'] == 'dataspaceunit-nbf-claim' for scope in client_scopes):
         nbf_claim_payload = {
-            "name": "inesdata-nbf-claim",
-            "description": "INESDATA: Add nbf required claim",
+            "name": "dataspaceunit-nbf-claim",
+            "description": "Dataspaceunit: Add nbf required claim",
             "protocol": "openid-connect",
             "attributes": {
                 "display.on.consent.screen": "false",
@@ -586,7 +586,7 @@ def create_realm(username, password, server_url, realm_name, dataspace_name, key
         new_client = {
             "clientId": "dataspace-users",
             "name": "dataspace-users",
-            "description": "Inesdata: Cliente para la identificación de los usuarios del dataspace",
+            "description": "Dataspaceunit: Cliente para la identificación de los usuarios del dataspace",
             "alwaysDisplayInConsole": False,
             "redirectUris": ["*"],
             "webOrigins": ["*"],
@@ -598,7 +598,7 @@ def create_realm(username, password, server_url, realm_name, dataspace_name, key
                 "post.logout.redirect.uris": "+",
                 "backchannel.logout.session.required": True
             },
-            "defaultClientScopes":["inesdata-dataspace-audience","inesdata-nbf-claim", "profile", "email", "acr", "web-origins", "roles"]
+            "defaultClientScopes":["dataspaceunit-dataspace-audience","dataspaceunit-nbf-claim", "profile", "email", "acr", "web-origins", "roles"]
         }
         keycloak_admin.create_client(payload=new_client)
 
@@ -640,7 +640,7 @@ def create_role(keycloak_admin, role_name):
             else:
                 attributes = {
                     "connector": [role_name],
-                    "connector-type": ["inesdata-connector"]
+                    "connector-type": ["dataspaceunit-connector"]
                 }
                 keycloak_admin.create_realm_role(payload={"name": role_name, "attributes": attributes})
             click.echo(f"    + Role {role_name} created.")
@@ -699,7 +699,7 @@ def create_client(keycloak_admin, dataspace, client_name, environment):
                 "frontchannel.logout": True,
                 "backchannel.logout.session.required": True
             },
-            "defaultClientScopes":["inesdata-dataspace-audience","inesdata-nbf-claim", "profile", "email", "acr"]
+            "defaultClientScopes":["dataspaceunit-dataspace-audience","dataspaceunit-nbf-claim", "profile", "email", "acr"]
         }
         client_id = keycloak_admin.create_client(payload=new_client)
         click.echo(f"    + Client {client_name} created with ID {client_id}.")
@@ -776,7 +776,7 @@ def create_user(keycloak_admin, user_name, user_password):
     if not any(user['username'] == user_name for user in users):
         new_user = {
             "username": user_name,
-            "email": user_name + '@inesdata.com',
+            "email": user_name + '@dataspaceunit.com',
             "firstName": user_name,
             "lastName": user_name,
             "enabled": True,
@@ -1089,31 +1089,31 @@ def create_dataspace_value_files(name, environment):
             keys[key_name.lower()] = value
     print(keys)
 
-    # Generate step-1 values file
+    # Generate registration-service values file
     #   registration-service
-    env = Environment(loader=FileSystemLoader('dataspace/step-1'))
+    env = Environment(loader=FileSystemLoader('dataspace/registration-service'))
     template = env.get_template('values.yaml.tpl')
 
     # Render the template with the values from the 'keys' variable
     output = template.render(keys=keys)
     
     # Write the rendered template to a new file
-    output_path = f'dataspace/step-1/values.yaml.{name}'
+    output_path = f'dataspace/registration-service/values-{name}.yaml'
     with open(output_path, 'w') as f:
         f.write(output)
 
     click.echo(f'Generated values file: {output_path}')
 
-    # Generate step-2 values file
+    # Generate public-portal values file
     #   public-portal
-    env = Environment(loader=FileSystemLoader('dataspace/step-2'))
+    env = Environment(loader=FileSystemLoader('dataspace/public-portal'))
     template = env.get_template('values.yaml.tpl')
 
     # Render the template with the values from the 'keys' variable
     output = template.render(keys=keys)
 
     # Write the rendered template to a new file
-    output_path = f'dataspace/step-2/values.yaml.{name}'
+    output_path = f'dataspace/public-portal/values-{name}.yaml'
     with open(output_path, 'w') as f:
         f.write(output)
 
@@ -1139,7 +1139,7 @@ def create_connector_value_files(dataspace_name, connector_name, environment):
     output = template.render(keys=keys)
     
     # Write the rendered template to a new file
-    output_path = f'connector/values.yaml.{connector_name}'
+    output_path = f'connector/values-{connector_name}.yaml'
     with open(output_path, 'w') as f:
         f.write(output)
 

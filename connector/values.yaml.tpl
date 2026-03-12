@@ -1,18 +1,18 @@
-# This chart deploys a new connector in the INESData platform.
+# This chart deploys a new connector in the Dataspaceunit platform.
 #
 connector:
   name: {{ keys.connector_name }}
   dataspace: {{ keys.dataspace_name }}
   environment: {{ 'pro' if keys.environment == 'PRO' else 'dev' }}
   image:
-    name: ghcr.io/inesdata/inesdata-connector
-    tag: 0.9.1
+    name: ghcr.io/proyectopionera/inesdata-connector
+    tag: 20260309-86a226e
   replicas: 1
-  jvmArgs: "{% if keys.environment == 'PRO'%}-Djavax.net.ssl.trustStore=/opt/connector/tls-cacerts/cacerts.jks -Djavax.net.ssl.trustStorePassword=inesdata{% endif %}"
+  jvmArgs: "{% if keys.environment == 'PRO'%}-Djavax.net.ssl.trustStore=/opt/connector/tls-cacerts/cacerts.jks -Djavax.net.ssl.trustStorePassword=dataspaceunit{% endif %}"
   configuration:
     configFilePath: /opt/connector/config/connector-configuration.properties
   ingress:
-    hostname: {{ keys.connector_name }}-{{ keys.dataspace_name }}.{% if keys.environment == 'PRO'%}ds.inesdata-project.eu{% else %}dev.ds.inesdata.upm{% endif %}
+    hostname: {{ keys.connector_name }}.{% if keys.environment == 'PRO'%}ds.dataspaceunit-project.eu{% else %}dev.ds.dataspaceunit.upm{% endif %}
     protocol: {{ 'https' if keys.environment == 'PRO' else 'http' }}
   minio:
     accesskey: {{ keys.dataspace_name }}/{{ keys.connector_name }}/aws-access-key
@@ -31,8 +31,8 @@ connector:
 
 connectorInterface:
   image:
-    name: ghcr.io/inesdata/inesdata-connector-interface
-    tag: 0.10.0
+    name: ghcr.io/proyectopionera/inesdata-connector-interface
+    tag: 20260309-2e7b345
   oauth2:
     client:
       dataspace-users
@@ -52,7 +52,7 @@ services:
     password: {{ keys.database.passwd }}
   keycloak:
     # comsrv prefix comes from the Helm release of the common services
-    hostname: {{ keys.keycloak_internal_hostname }}
+    hostname: {{ keys.keycloak_hostname }}
     external: {{ keys.keycloak_hostname }}
     protocol: {{ 'https' if keys.environment == 'PRO' else 'http' }}
   minio:
@@ -61,10 +61,18 @@ services:
     bucket: {{ keys.dataspace_name }}-{{ keys.connector_name }}
     protocol: {{ 'https' if keys.environment == 'PRO' else 'http' }}
   registrationService:
-    hostname: {% if keys.environment == 'PRO' %}registration-service-{{ keys.dataspace_name }}.ds.inesdata-project.eu{% 
+    hostname: {% if keys.environment == 'PRO' %}registration-service-{{ keys.dataspace_name }}.ds.dataspaceunit-project.eu{% 
                                          else %}{{ keys.dataspace_name }}-registration-service:8080{% endif %}
     protocol: {{ 'https' if keys.environment == 'PRO' else 'http' }}
   vault:
     url: {{ keys.vault_url }}
     token: {{ keys.vault.token }}
     path: {{ keys.dataspace_name }}/{{ keys.connector_name }}/
+hostAliases:
+- ip: "192.168.49.2"
+  hostnames:
+  - "keycloak.dev.ed.dataspaceunit.upm"
+  - "keycloak-admin.dev.ed.dataspaceunit.upm"
+  - "minio.dev.ed.dataspaceunit.upm"
+  - "console.minio-s3.dev.ed.dataspaceunit.upm"
+  - "registration-service-demo.dev.ds.dataspaceunit.upm"

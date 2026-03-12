@@ -26,7 +26,6 @@ spec:
           name: public-portal-backend
           ports:
             - containerPort: 1337
-              hostPort: 1337
               protocol: TCP
           securityContext:
             runAsUser: 1000

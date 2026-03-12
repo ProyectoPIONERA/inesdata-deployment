@@ -11,10 +11,10 @@ spec:
   dnsNames:
     - "*.comsrvs-tls-minio"
     - "*.common-srvs.svc"
-    - "*.ds.inesdata.upm"
-    - console.storage.ds.inesdata.upm
-    - storage.ds.inesdata.upm
-    - "*.minio.ds.inesdata-project.eu"
+    - "*.ds.dataspaceunit.upm"
+    - console.storage.ds.dataspaceunit.upm
+    - storage.ds.dataspaceunit.upm
+    - "*.minio.ds.dataspaceunit-project.eu"
     - comsrvs-minio
     - minio
   ipAddresses:
