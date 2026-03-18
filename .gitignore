@@ -13,3 +13,4 @@ connector/values-conn-company-demo.yaml
 dataspace/public-portal/values-demo.yaml
 dataspace/registration-service/values-demo.yaml
 deployer.config
+*:Zone.Identifier
