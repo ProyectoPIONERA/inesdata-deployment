@@ -3,7 +3,8 @@ kind: Ingress
 metadata:
   name: {{ .Values.connector.name }}-ingress
   annotations:
-    nginx.ingress.kubernetes.io/proxy-body-size: "800m"
+    nginx.ingress.kubernetes.io/proxy-body-size: {{ default "800m" .Values.connector.ingress.proxyBodySize | quote }}
+    nginx.org/client-max-body-size: {{ default "800m" .Values.connector.ingress.proxyBodySize | quote }}
 spec:
   rules:
   - host: {{ .Values.connector.ingress.hostname }}
