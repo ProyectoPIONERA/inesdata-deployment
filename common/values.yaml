@@ -58,6 +58,8 @@ minio:
     enabled: true
     hosts:
       - minio.dev.ed.dataspaceunit.upm
+    annotations:
+      nginx.ingress.kubernetes.io/proxy-body-size: "0"
   consoleIngress:
     enabled: true
     hosts:
