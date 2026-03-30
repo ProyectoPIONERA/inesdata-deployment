@@ -37,7 +37,7 @@ elasticsearch:
   enabled: true
   image:
     repository: docker.elastic.co/elasticsearch/elasticsearch
-    tag: "9.2.4"
+    tag: "7.17.18"
     pullPolicy: IfNotPresent
   serviceName: elasticsearch
   port: 9200
